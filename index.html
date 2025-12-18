@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PUSL Sannicolau Mare</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        /* Header */
+        
+        header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            transition: transform 0.3s;
+        }
+        
+        .logo:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .site-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        
+        .site-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        .auth-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+        
+        .auth-button:hover {
+            background: white;
+            color: #1e3a8a;
+            transform: translateY(-2px);
+        }
+        
+        .auth-button.logged-in {
+            background: #10b981;
+            border-color: #10b981;
+        }
+        
+        .auth-button.logged-in:hover {
+            background: #059669;
+            color: white;
+        }
+        /* Hero */
+        
+        .hero {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            padding: 6rem 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #1e40af;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        /* Blog */
+        
+        .blog-section {
+            padding: 4rem 0;
+            background: #f8fafc;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #1e40af;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: #2563eb;
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+        
+        .blog-post {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .post-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+        
+        .post-content {
+            padding: 2rem;
+        }
+        
+        .post-meta {
+            display: flex;
+            gap: 2rem;
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .post-title {
+            font-size: 2rem;
+            color: #dc2626;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        
+        .post-subtitle {
+            font-size: 1.3rem;
+            color: #1e40af;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .post-excerpt {
+            color: #475569;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+        
+        .post-list {
+            margin: 1.5rem 0;
+            padding-left: 2rem;
+        }
+        
+        .post-list li {
+            color: #475569;
+            margin-bottom: 0.8rem;
+        }
+        
+        .post-list strong {
+            color: #1e40af;
+        }
+        /* Restricted Content */
+        
+        .restricted-content {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            border-radius: 10px;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin: 2rem 0;
+            border: 2px solid #475569;
+        }
+        
+        .restricted-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .restricted-content h3 {
+            color: #f1f5f9;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .restricted-content p {
+            color: #cbd5e1;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .login-button {
+            background: #2563eb;
+            color: white;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+        }
+        
+        .login-button:hover {
+            background: #1e40af;
+            transform: translateY(-3px);
+        }
+        /* Private Content */
+        
+        .private-content {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            border-radius: 15px;
+            padding: 3rem;
+            margin: 2rem 0;
+            border: 3px solid #10b981;
+            color: white;
+            text-align: left;
+        }
+        
+        .private-content h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .private-content h4 {
+            font-size: 1.4rem;
+            margin: 2rem 0 1rem;
+            color: #d1fae5;
+        }
+        
+        .private-content p {
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        
+        .private-content ul {
+            margin: 1rem 0 1.5rem 2rem;
+        }
+        
+        .private-content li {
+            margin-bottom: 0.8rem;
+            line-height: 1.7;
+        }
+        /* Modal */
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+        }
+        
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #64748b;
+        }
+        
+        .close-modal:hover {
+            color: #dc2626;
+        }
+        
+        .modal-content h2 {
+            color: #1e40af;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #334155;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+        
+        .submit-button {
+            width: 100%;
+            background: #2563eb;
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .submit-button:hover {
+            background: #1e40af;
+            transform: translateY(-2px);
+        }
+        
+        .success-message {
+            background: #d1fae5;
+            border: 2px solid #10b981;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            color: #065f46;
+            text-align: center;
+        }
+        
+        .secondary-button {
+            width: 100%;
+            background: #64748b;
+            color: white;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+        
+        .privacy-note {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: #64748b;
+            text-align: center;
+        }
+        /* About */
+        
+        .about-section {
+            padding: 4rem 0;
+            background: white;
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .about-text h2 {
+            color: #1e40af;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .about-text p {
+            color: #475569;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        
+        .about-image {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        /* Footer */
+        
+        footer {
+            background: #0f172a;
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h3 {
+            color: #3b82f6;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section a {
+            color: #cbd5e1;
+            text-decoration: none;
+        }
+        
+        .footer-section a:hover {
+            color: #3b82f6;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content,
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <img src="https://i.imgur.com/dvCD1Pa.png" alt="PUSL Logo" class="logo">
+                    <div>
+                        <div class="site-title">PUSL Sannicolau Mare</div>
+                        <div class="site-subtitle">Partidul Umanist Social Liberal</div>
+                    </div>
+                </div>
+                <nav>
+                    <a href="#acasa">Acasă</a>
+                    <a href="#articole">Articole</a>
+                    <a href="#despre">Despre</a>
+                    <a href="#contact">Contact</a>
+                    <button id="authButton" class="auth-button" onclick="toggleAuth()">
+                        <span id="authText">🔐 Autentificare</span>
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero" id="acasa">
+        <div class="container">
+            <h1>Adevărul pentru Sânnicolau Mare</h1>
+            <p>Construim un viitor mai bun pentru comunitatea noastră</p>
+            <a href="#articole" class="cta-button">Descoperă Viziunea Noastră</a>
+        </div>
+    </section>
+
+    <section class="blog-section" id="articole">
+        <div class="container">
+            <h2 class="section-title">Investigații și Articole</h2>
+            <article class="blog-post">
+                <img src="https://images.unsplash.com/photo-1585007600263-71228e40c8d1?w=900&h=400&fit=crop" alt="Investigație" class="post-image">
+                <div class="post-content">
+                    <div class="post-meta">
+                        <span>📅 18 Decembrie 2025</span>
+                        <span>✍️ Echipa PUSL</span>
+                        <span>🔍 Investigație</span>
+                    </div>
+                    <h3 class="post-title">Sânnicolau Sub Asediu: Cine Se Ascunde în Spatele „Pixelilor de Noroi"?</h3>
+                    <p class="post-subtitle">Rezumatul Investigației</p>
+                    <p class="post-excerpt">Orașul nostru trece printr-o perioadă fără precedent, unde bătălia politică s-a mutat din arena proiectelor direct în viața privată a cetățenilor săi. Nu mai vorbim de simple opinii, ci de o campanie orchestrată de denigrare, alimentată
+                        de conturi false și tehnologie AI, menită să distrugă reputația unor profesioniști respectați.</p>
+                    <p class="post-excerpt">De la atacuri asupra familiilor unor medici și profesori, până la scheme financiare suspecte, am adunat mărturii și dovezi care indică o degradare morală profundă în birourile administrației locale.</p>
+                    <p class="post-subtitle">În acest articol vei descoperi:</p>
+                    <ul class="post-list">
+                        <li><strong>Linia Roșie Depășită:</strong> Atacuri asupra familiilor medicilor Radu Vorovenci și Laurențiu Vochița</li>
+                        <li><strong>Manualul de Manipulare Digitală:</strong> Legătura dintre administrație și firmele de software</li>
+                        <li><strong>Dosarul „Ștampilă-Și-Atât":</strong> Schema delegațiilor fictive</li>
+                        <li><strong>Misterul lui „Dori":</strong> Reconversia profesională spectaculoasă</li>
+                        <li><strong>Vocea Cetățenilor:</strong> Mărturiile celor care au decis să vorbească</li>
+                    </ul>
+                    <div id="contentArea"></div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Înregistrare Cont Nou</h2>
+            <form id="form1" onsubmit="handleStep1(event)">
+                <div class="form-group">
+                    <label>Nume *</label>
+                    <input type="text" id="nume" required placeholder="Popescu">
+                </div>
+                <div class="form-group">
+                    <label>Prenume *</label>
+                    <input type="text" id="prenume" required placeholder="Ion">
+                </div>
+                <div class="form-group">
+                    <label>Gmail *</label>
+                    <input type="email" id="email" required placeholder="exemplu@gmail.com">
+                </div>
+                <div class="form-group">
+                    <label>Parolă *</label>
+                    <input type="password" id="password" required minlength="6" placeholder="Minim 6 caractere">
+                </div>
+                <div class="form-group">
+                    <label>Telefon *</label>
+                    <input type="tel" id="phone" required placeholder="+40 7XX XXX XXX">
+                </div>
+                <button type="submit" class="submit-button">Trimite Cod de Verificare</button>
+                <p class="privacy-note">🔒 Vei primi un cod pe email pentru verificare.</p>
+            </form>
+            <form id="form2" onsubmit="handleStep2(event)" style="display:none">
+                <div class="success-message">✅ Cod trimis la <strong id="sentEmail"></strong></div>
+                <div class="form-group">
+                    <label>Cod Verificare (6 cifre) *</label>
+                    <input type="text" id="code" required maxlength="6" pattern="[0-9]{6}" placeholder="123456">
+                </div>
+                <button type="submit" class="submit-button">Verifică și Înregistrează-te</button>
+                <button type="button" class="secondary-button" onclick="resendCode()">📧 Retrimite Codul</button>
+            </form>
+        </div>
+    </div>
+
+    <section class="about-section" id="despre">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Despre PUSL</h2>
+                    <p>Partidul Umanist Social Liberal este dedicat dezvoltării comunității din Sannicolau Mare prin politici centrate pe cetățean și valorile umaniste.</p>
+                    <p>Ne angajăm să promovăm transparența, responsabilitatea și participarea activă a cetățenilor în procesul decizional.</p>
+                </div>
+                <img src="https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=600&h=400&fit=crop" alt="Comunitate" class="about-image">
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>PUSL Sannicolau Mare</h3>
+                    <p>Partidul Umanist Social Liberal<br>Sannicolau Mare, Județul Timiș</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <ul>
+                        <li>📧 contact@pusl-sannicolau.ro</li>
+                        <li>📱 Social media</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 PUSL Sannicolau Mare</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let userData = {},
+            verCode = '',
+            isAuth = false;
+
+        window.onload = () => {
+            const saved = localStorage.getItem('pusl_user');
+            if (saved) {
+                userData = JSON.parse(saved);
+                isAuth = true;
+                updateUI();
+                showPrivateContent();
+            } else {
+                showRestricted();
+            }
+        };
+
+        function showRestricted() {
+            document.getElementById('contentArea').innerHTML = `
+                <div class="restricted-content">
+                    <div class="restricted-icon">🔒</div>
+                    <h3>CONȚINUT RESTRÂNS</h3>
+                    <p>Pentru a citi investigația completă cu dovezi și detalii, înregistrează-te.</p>
+                    <button class="login-button" onclick="openModal()">👤 Înregistrare</button>
+                </div>`;
+        }
+
+        function showPrivateContent() {
+            document.getElementById('contentArea').innerHTML = `
+                <div class="private-content">
+                    <h3>🔓 [ACCES AUTORIZAT] În Spatele Ecranului: Anatomia unei Campanii de Gherilă Digitală</h3>
+                    <p>Bine ați venit în secțiunea de analiză profundă. Aici nu vorbim despre zvonuri, ci despre metode. Ceea ce vedem în Sânnicolau Mare în ultimele luni nu este critică politică obișnuită, ci un experiment digital complex care ridică semne de întrebare asupra eticii în spațiul public.</p>
+                    
+                    <h4>1. Pagina de Facebook și "Efectul de Oglindă"</h4>
+                    <p>Elementul central al acestei situații este activitatea online corelată cu numele lui Andrei Opriș. Publicul a sesizat apariția unei pagini de Facebook care a devenit principalul vector de distribuție pentru imagini generate prin AI și caricaturi extrem de specifice.</p>
+                    <ul>
+                        <li><strong>Observație publică:</strong> Pagina nu se limitează la dezbaterea proiectelor administrative, ci alege să portretizeze figuri locale (medici, profesori, antreprenori) în ipostaze fantastice sau degradante.</li>
+                        <li><strong>Metoda:</strong> Se folosește o tehnică de "satiră agresivă" care, prin repetitivitate, încearcă să modifice percepția publică asupra unor oameni cu cariere solide în comunitate.</li>
+                    </ul>
+                    
+                    <h4>2. Inteligența Artificială: Unealtă de Dialog sau de Dezbinare?</h4>
+                    <p>Cea mai îngrijorătoare componentă este utilizarea imaginilor generate prin AI. Acestea sunt folosite pentru a crea scenarii vizuale care nu au avut loc niciodată în realitate, dar care impactează subconștientul privitorului.</p>
+                    <ul>
+                        <li><strong>Cazul caricaturilor:</strong> Am analizat modul în care elemente de Deepfake și ilustrație digitală sunt folosite pentru a-i înfățișa pe cei vizați în contexte financiare sau profesionale dubioase.</li>
+                        <li><strong>Impactul social:</strong> Această metodă transformă spațiul digital al orașului într-un câmp de bătălie unde "adevărul vizual" este fabricat la comandă.</li>
+                    </ul>
+                    
+                    <h4>3. Cine sunt "Țintele" și de ce?</h4>
+                    <p>Este vizibil un tipar în alegerea persoanelor luate în vizor. Nu sunt vizați doar politicieni, ci și piloni ai societății civile:</p>
+                    <ul>
+                        <li><strong>Corpul Medical și Didactic:</strong> Figuri precum Radu Vorovenci, Laurențiu Vochița sau Stamate Cristian sunt expuse unui tir de imagini care încearcă să le erodeze prestigiul profesional.</li>
+                        <li><strong>Scopul probabil:</strong> Crearea unui climat de intimidare în care oricine are o opinie diferită să se teamă că va fi următoarea victimă a unei caricaturi virale.</li>
+                    </ul>
+                    
+                    <h4>4. Limita dintre Satiră și Denigrare</h4>
+                    <p>Din punct de vedere legal și etic, prezentăm publicului această întrebare: Unde se termină dreptul la liberă exprimare și unde începe campania de discreditare orchestrată?</p>
+                    <p>Prezentăm situația așa cum este: o pagină de Facebook, un nume vehiculat în spațiul public (Andrei Opriș) și o serie de cetățeni care se trezesc peste noapte protagoniști în "filme AI" create fără acordul lor.</p>
+                    
+                    <p><strong>Concluzia Analizei:</strong> Într-o comunitate sănătoasă, argumentul ar trebui să bată algoritmul. Când resursele digitale sunt folosite pentru a ataca familii și vieți private sub masca politicii, întreaga comunitate are de pierdut.</p>
+                    <p>Vom continua să monitorizăm activitatea acestor platforme și să oferim publicului instrumentele necesare pentru a distinge între realitate și manipularea prin pixeli.</p>
+                </div>`;
+        }
+
+        function updateUI() {
+            const btn = document.getElementById('authButton');
+            const txt = document.getElementById('authText');
+            if (isAuth) {
+                btn.classList.add('logged-in');
+                txt.innerHTML = `👤 ${userData.prenume}`;
+            } else {
+                btn.classList.remove('logged-in');
+                txt.innerHTML = '🔐 Autentificare';
+            }
+        }
+
+        function toggleAuth() {
+            if (isAuth) {
+                if (confirm('Sigur vrei să te deconectezi?')) {
+                    localStorage.removeItem('pusl_user');
+                    isAuth = false;
+                    userData = {};
+                    updateUI();
+                    showRestricted();
+                }
+            } else {
+                openModal();
+            }
+        }
+
+        function openModal() {
+            document.getElementById('modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+            document.getElementById('form1').style.display = 'block';
+            document.getElementById('form2').style.display = 'none';
+        }
+
+        function handleStep1(e) {
+            e.preventDefault();
+            userData = {
+                nume: document.getElementById('nume').value,
+                prenume: document.getElementById('prenume').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                phone: document.getElementById('phone').value
+            };
+            verCode = Math.floor(100000 + Math.random() * 900000).toString();
+            console.log('=== COD VERIFICARE ===');
+            console.log('Email:', userData.email);
+            console.log('Cod:', verCode);
+            console.log('======================');
+
+            document.getElementById('form1').style.display = 'none';
+            document.getElementById('form2').style.display = 'block';
+            document.getElementById('sentEmail').textContent = userData.email;
+            document.getElementById('modalTitle').textContent = 'Verificare Email';
+        }
+
+        function handleStep2(e) {
+            e.preventDefault();
+            const entered = document.getElementById('code').value;
+            if (entered === verCode) {
+                localStorage.setItem('pusl_user', JSON.stringify(userData));
+                isAuth = true;
+                updateUI();
+                showPrivateContent();
+                closeModal();
+                alert('✅ Cont creat cu succes! Acum ai acces la conținutul complet.');
+            } else {
+                alert('❌ Cod incorect! Verifică și încearcă din nou.');
+            }
+        }
+
+        function resendCode() {
+            verCode = Math.floor(100000 + Math.random() * 900000).toString();
+            console.log('Cod nou:', verCode);
+            alert('📧 Cod nou trimis la ' + userData.email);
+        }
+
+        window.onclick = (e) => {
+            if (e.target == document.getElementById('modal')) closeModal();
+        };
+    </script>
+</body>
+
+</html>
